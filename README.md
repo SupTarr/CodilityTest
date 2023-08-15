@@ -9,7 +9,7 @@ This project is solution of `codility` problems. and will I use my knowledge of 
 This project was created with:
 
 - JavaScript
-- - NodeJs
+- NodeJs
 
 ## Installation
 
