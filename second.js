@@ -72,37 +72,22 @@
 
 function solution(S) {
   // write your code in JavaScript (Node.js 8.9.4)
-  const types = [];
-  const sizes = [];
+  let resultSize = [0, 0, 0, 0];
   S.split("\n").forEach((list) => {
     const temp = list.split(" ");
     const typeArr = temp[0].split(".");
     const type = typeArr[typeArr.length - 1];
     const size = temp[1].split("b");
     if (type === "mp3" || type === "aac" || type === "flac") {
-      types.push("music");
+      resultSize[0] += parseInt(size[0]);
     } else if (type === "jpg" || type === "bmp" || type === "gif") {
-      types.push("images");
+      resultSize[1] += parseInt(size[0]);
     } else if (type === "mp4" || type === "avi" || type === "mkv") {
-      types.push("movies");
+      resultSize[2] += parseInt(size[0]);
     } else {
-      types.push("other");
+      resultSize[3] += parseInt(size[0]);
     }
-    sizes.push(size[0]);
   });
-
-  let resultSize = [0, 0, 0, 0];
-  for (let i = 0; i < types.length; i++) {
-    if (types[i] === "music") {
-      resultSize[0] += parseInt(sizes[i]);
-    } else if (types[i] === "images") {
-      resultSize[1] += parseInt(sizes[i]);
-    } else if (types[i] === "movies") {
-      resultSize[2] += parseInt(sizes[i]);
-    } else {
-      resultSize[3] += parseInt(sizes[i]);
-    }
-  }
 
   let result = "";
   result += `music ${resultSize[0]}b\n`;
