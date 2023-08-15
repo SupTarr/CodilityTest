@@ -16,7 +16,7 @@
   and the file's size in bytes, separated by a space. For example, 
   string S could look like:
 
-    "my, song.mp3 11b 
+    "my.song.mp3 11b 
     greatSong.flac 1000b 
     not3.txt 5b 
     video.mp4 200b 
@@ -72,50 +72,52 @@
 
 function solution(S) {
   // write your code in JavaScript (Node.js 8.9.4)
-  const lists = S.split("\n");
-  const listName = [];
-  const listSize = [];
-  lists.forEach((list) => {
+  const types = [];
+  const sizes = [];
+  S.split("\n").forEach((list) => {
     const temp = list.split(" ");
-    listName.push(temp[0]);
-    listSize.push(temp[1]);
-  });
-  const resultType = [];
-  const resultSize = [];
-  for (let i = 0; i < listName.length; i++) {
-    let type = listName[i].split(".");
-    type = type[type.length - 1];
-    let size = listSize[i].split("b");
-    resultSize.push(size[0]);
+    const typeArr = temp[0].split(".");
+    const type = typeArr[typeArr.length - 1];
+    const size = temp[1].split("b");
     if (type === "mp3" || type === "aac" || type === "flac") {
-      resultType.push("music");
+      types.push("music");
     } else if (type === "jpg" || type === "bmp" || type === "gif") {
-      resultType.push("images");
+      types.push("images");
     } else if (type === "mp4" || type === "avi" || type === "mkv") {
-      resultType.push("movies");
+      types.push("movies");
     } else {
-      resultType.push("other");
+      types.push("other");
+    }
+    sizes.push(size[0]);
+  });
+
+  let resultSize = [0, 0, 0, 0];
+  for (let i = 0; i < types.length; i++) {
+    if (types[i] === "music") {
+      resultSize[0] += parseInt(sizes[i]);
+    } else if (types[i] === "images") {
+      resultSize[1] += parseInt(sizes[i]);
+    } else if (types[i] === "movies") {
+      resultSize[2] += parseInt(sizes[i]);
+    } else {
+      resultSize[3] += parseInt(sizes[i]);
     }
   }
-  let musicSize = 0;
-  let imagesSize = 0;
-  let moviesSize = 0;
-  let otherSize = 0;
-  for (let i = 0; i < listName.length; i++) {
-    if (resultType[i] === "music") {
-      musicSize += parseInt(listSize[i]);
-    } else if (resultType[i] === "images") {
-      imagesSize += parseInt(listSize[i]);
-    } else if (resultType[i] === "movies") {
-      moviesSize += parseInt(listSize[i]);
-    } else {
-      otherSize += parseInt(listSize[i]);
-    }
-  }
+
   let result = "";
-  result += `music ${musicSize}b\n`;
-  result += `images ${imagesSize}b\n`;
-  result += `movies ${moviesSize}b\n`;
-  result += `other ${otherSize}b`;
+  result += `music ${resultSize[0]}b\n`;
+  result += `images ${resultSize[1]}b\n`;
+  result += `movies ${resultSize[2]}b\n`;
+  result += `other ${resultSize[3]}b`;
+
   return result;
 }
+
+console.log(
+  solution(`my.song.mp3 11b 
+greatSong.flac 1000b 
+not3.txt 5b 
+video.mp4 200b 
+game.exe 100b 
+mov!e.mkv 10000b`)
+);
