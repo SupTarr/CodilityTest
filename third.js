@@ -56,9 +56,7 @@ function solution(S, T) {
 
   function incrementTime(S) {
     const time = S.split(":").map((el) => parseInt(el));
-    let hour = time[0];
-    let minute = time[1];
-    let second = time[2];
+    let [hour, minute, second] = time;
 
     second += 1;
     if (second >= 60) {
